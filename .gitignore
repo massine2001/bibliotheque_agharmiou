@@ -1,0 +1,43 @@
+# Dépendances
+/node_modules
+node_modules
+
+# Fichiers de build
+/dist
+/build
+
+# Fichiers de configuration locaux
+.env
+.env.local
+
+# Fichiers de cache
+.npm
+.yarn/cache
+.pnpm-store
+.cache
+
+# Fichiers de configuration IDE
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Fichiers temporaires et de logs
+*.log
+*.tmp
+*.temp
+.DS_Store
+.Thumbs.db
+
+# Dépôts Git locaux
+.git/
+.gitmodules
+
+# Système de fichiers spécifique
+Desktop.ini
+
+# Cache de build
+.next/cache
+.nuxt
+.parcel-cache
+.eslintcache
