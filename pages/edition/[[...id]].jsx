@@ -33,13 +33,13 @@ const ModifLivre = () => {
     const [acheteur, setAcheteur] = useState('Naima');
     const [genre_id, setGenreId] = useState('');
     const [code, setCode] = useState('');
-    const [bibliotheque, setBibliotheque] = useState('Bibliothèque Tanqacht N Si Amr'); // Nouvel état pour la maison
+    const [bibliotheque, setBibliotheque] = useState('Bibliothèque Tanqacht N Si Amr');
     const [emplacement, setEmplacement] = useState(''); 
 
     const [auteurs, setAuteurs] = useState([]);
     const [editeurs, setEditeurs] = useState([]);
     const [traducteurs, setTraducteurs] = useState([]);
-    const [bibliotheques, setBibliotheques] = useState([]); // Nouvel état pour la maison
+    const [bibliotheques, setBibliotheques] = useState([]); 
 
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
@@ -78,7 +78,7 @@ const ModifLivre = () => {
         setAcheteur('Naima');
         setGenreId('');
         setCode('');
-        setBibliotheque(''); // Réinitialisation de la maison
+        setBibliotheque(''); 
         setEmplacement('');
     };
 
@@ -111,8 +111,8 @@ const ModifLivre = () => {
             setAcheteur(livre?.acheteur || 'Naima');
             setGenreId(livre?.genre_id || '');
             setCode(livre?.code || '');
-            setBibliotheque(livre?.bibliotheque || 'Bibliothèque Tanqacht N Si Amr'); // Mise à jour de la maison
-            setEmplacement(livre?.emplacement || ''); // Mise à jour de l'emplacement
+            setBibliotheque(livre?.bibliotheque || 'Bibliothèque Tanqacht N Si Amr'); 
+            setEmplacement(livre?.emplacement || ''); 
         } 
     }, [livre_singulier]);
 
@@ -123,8 +123,8 @@ const ModifLivre = () => {
         setEditeurs(edi);
         const tra = await fetchTraducteur();
         setTraducteurs(tra);
-        const bib = await fetchBibliotheque(); // Récupération de la maison
-        setBibliotheques(bib); // Mise à jour de la maison 
+        const bib = await fetchBibliotheque(); 
+        setBibliotheques(bib); 
     };
 
     const handleSubmitNom = async (e, type) => {
@@ -379,8 +379,10 @@ const ModifLivre = () => {
                         <input min={0} required type="number" value={annee_publication === 0 ? '' : annee_publication} placeholder="Saisir l'année de publication du livre" onChange={(e) => setAnneePublication(parseInt(e.target.value))} />
                     </div>
                     <div>
-                        <label>Image</label>
+                        <div className='divImagePetite'>
                         <input type="text" value={image} onChange={(e) => setImage(e.target.value)} />
+                        {image && <img className='monFormImage' src={image} alt="Preview"/>} 
+                        </div>
                     </div>
                     <div>
                         <label>Acheteur</label>
@@ -461,7 +463,6 @@ const ModifLivre = () => {
                             <option value="mauvais">Mauvais</option>
                         </select>
                     </div>
-                    {image && <img src={image} alt="Preview" className="preview-image" />}
                     <div>
                         <label>Le livre est prêté ?</label>
                         <select value={louer} onChange={(e) => setLouer(e.target.value)}>
@@ -473,7 +474,7 @@ const ModifLivre = () => {
                         <label>Résumé</label>
                         <textarea required  placeholder='Décrivez le livre en quelques phrases !' value={resume} onChange={(e) => setResume(e.target.value)} />
                     </div>
-                    <div className='textArea900' style={{border:'1px solid black',width:'30%',justifySelf:'center',padding:'1rem',borderRadius:'8px'}}>
+                    <div className='monForm2'>
                         <label style={{textAlign:'center',alignSelf:'center'}}>Code du livre</label>
                         <input style={{width:'30%',textAlign:'center',alignSelf:'center'}} type="text" placeholder='-' value={code} readOnly onChange={()=>setCode(e.target.value)}/>                        
                     </div>
@@ -482,7 +483,7 @@ const ModifLivre = () => {
                     {success && <div className="success-message">{success}</div>}
                     {loading && <div className="loading-spinner">Chargement...</div>}
                     </div>
-                    <div className='form-button'>
+                    <div className='form-button s4'>
                         <Link href='/'><button>Annuler</button></Link>
                         <button type="submit">Modifier</button>
                     </div>
