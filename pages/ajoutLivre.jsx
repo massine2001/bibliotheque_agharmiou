@@ -23,7 +23,7 @@ const AjoutLivre = () => {
     const [acheteur, setAcheteur] = useState('Naima');
     const [genre_id, setGenreId] = useState('');
     const [code, setCode] = useState('');
-    const [bibliotheque, setBibliotheque] = useState('Bibliothèque Tanqacht N Si Amr'); // Nouvel état pour la maison
+    const [bibliotheque, setBibliotheque] = useState('Bibliothèque Tanqacht N Si Amr');
     const [emplacement, setEmplacement] = useState(''); 
 
     const [auteurs, setAuteurs] = useState([]);
@@ -54,13 +54,10 @@ const AjoutLivre = () => {
         const handleEmplacement = (e) => {
             let input = e.target.value;
             
-            // Limite le premier caractère à une lettre
             let firstChar = input.charAt(0).match(/[a-zA-Z]/) ? input.charAt(0).toUpperCase() : "";
           
-            // Limite les deux caractères suivants à des chiffres
-            let nextChars = input.slice(1).replace(/[^0-9]/g, "").slice(0, 2); // Seules deux chiffres sont autorisées
+            let nextChars = input.slice(1).replace(/[^0-9]/g, "").slice(0, 2); 
           
-            // Formate dans le format "A - 99" si les chiffres existent
             let formattedValue = firstChar;
             if (nextChars.length > 0) {
               formattedValue += " - " + nextChars;
@@ -206,8 +203,8 @@ const AjoutLivre = () => {
         setEditeurs(edi);
         const tra = await fetchTraducteur();
         setTraducteurs(tra);
-        const bib = await fetchBibliotheque(); // Récupération de la maison
-        setBibliotheques(bib); // Mise à jour de la maison 
+        const bib = await fetchBibliotheque();
+        setBibliotheques(bib); 
     };
 
     const handleSubmitNom = async (e, type) => {
@@ -410,7 +407,10 @@ const AjoutLivre = () => {
                     </div>
                     <div>
                         <label>Image</label>
-                        <input type="search" placeholder="Saisir l'adresse d'une image" value={image} onChange={(e) => setImage(e.target.value)} />
+                        <div className='divImagePetite'>
+                        <input type="search" style={{width:'100%'}} placeholder="Saisir l'adresse d'une image" value={image} onChange={(e) => setImage(e.target.value)} />
+                        {image && <img className='monFormImage' src={image} alt="Preview"/>} 
+                        </div>
                     </div>
                     <div>
                         <label>Acheteur</label>
@@ -501,6 +501,10 @@ const AjoutLivre = () => {
                         <label>Résumé</label>
                         <textarea required placeholder='Décrivez le livre en quelques phrases !' value={resume} onChange={(e) => setResume(e.target.value)} />
                     </div>
+                    <div className='monForm2'>
+                                    <label style={{textAlign:'center',alignSelf:'center'}}>Code du livre</label>
+                                    <input style={{width:'30%',textAlign:'center',alignSelf:'center'}} type="text" placeholder='-' value={code} readOnly onChange={()=>setCode(e.target.value)}/>                        
+                    </div>
                     {(error || success || loading) &&
                     <div className='textArea900'>
                     {error && <div className="error-message">{error}</div>}
@@ -508,22 +512,15 @@ const AjoutLivre = () => {
                     {loading && <div className="loading-spinner">Chargement...</div>}
                     </div>
                     }
-                    <div className='monFrom'>
-                        <div className='monForm1'>
-                            <div className='monForm2' style={{border:'1px solid black',width:'30%',justifySelf:'center',padding:'1rem',borderRadius:'8px'}}>
-                                <label style={{textAlign:'center',alignSelf:'center'}}>Code du livre</label>
-                                <input style={{width:'30%',textAlign:'center',alignSelf:'center'}} type="text" placeholder='-' value={code} readOnly onChange={()=>setCode(e.target.value)}/>                        
-                            </div>
-                            {image && <img className='monFormImage' src={image} alt="Preview"/>} 
-                        </div>
-                        <div className='form-button'>
+                        <div className='form-button s4'>
                             <button onClick={resetForm}>Annuler</button>
                             <button type="submit">Ajouter</button>
                         </div>
-                    </div>
-                    
+                   
+
                 </fieldset>
             </form>
+           
         </MainLayout>
     );
 };
