@@ -42,7 +42,7 @@ const SearchLivre = () => {
         try {
             const l = await fetchSpecifiqueLivre(titre, auteur, editeur, langue, annee_publication, genree);
             setLivre(l);
-          
+            handleScroll();
         } catch (err) {
             return;
         } 
@@ -59,14 +59,12 @@ const SearchLivre = () => {
     
         getUser();
     
-        // Écoute les changements de session
         const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
           setUser(session?.user || null);
           setLoading(false);
         });
     
         return () => {
-          // Désabonne l'écouteur d'événements
           authListener?.subscription?.unsubscribe();
         };
       }, []);
@@ -89,30 +87,37 @@ const SearchLivre = () => {
            
         }
     }
+
+   const handleScroll = () =>{
+        const element = document.getElementById('h1index');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+   } 
     return (
         <MainLayout>
             <form onSubmit={handleSubmit}>
-                <fieldset  className='form-livre preview-container'>
+                <fieldset  className='form-livre preview-container x4' >
                     <legend><h1>Chercher un livre</h1></legend>
                     <div>
                         <label>Titre</label>
-                        <input  type="text" value={titre} onChange={(e) => setTitre(e.target.value)} />
+                        <input  type="text" value={titre} placeholder='Saisissez le titre !' onChange={(e) => setTitre(e.target.value)} />
                     </div>
                     <div>
                         <label>Auteur</label>
-                        <input  type="text" value={auteur} onChange={(e) => setAuteur(e.target.value)} />
+                        <input  type="text" value={auteur} placeholder="Saisissez l'auteur !" onChange={(e) => setAuteur(e.target.value)} />
                     </div>
                     <div>
                         <label>Editeur</label>
-                        <input  type="text" value={editeur} onChange={(e) => setEditeur(e.target.value)} />
+                        <input  type="text" value={editeur} placeholder="Saisissez l'éditeur !" onChange={(e) => setEditeur(e.target.value)} />
                     </div>
                     <div>
                         <label>Langue</label>
-                        <input  type="text" value={langue} onChange={(e) => setLangue(e.target.value)} />
+                        <input  type="text" value={langue} placeholder='Cherchez par langue !' onChange={(e) => setLangue(e.target.value)} />
                     </div>                   
                     <div>
                         <label>Année de publication</label>
-                        <input min={0}  type="number" value={annee_publication} onChange={(e) => setAnneePublication(parseInt(e.target.value))} />
+                        <input min={0}  type="number" value={annee_publication} placeholder='Cherchez par année de publication !' onChange={(e) => setAnneePublication(parseInt(e.target.value))} />
                     </div>
                     <div>
                         <label>Genre</label>
@@ -132,7 +137,8 @@ const SearchLivre = () => {
                 </fieldset>
                 {livre.length>0 && (
                     <>
-                        <div style={{ borderTop: "1px solid gray ",width:'80vw',margin:'1rem' }}></div>
+
+                        <div style={{ borderTop: "1px solid gray ",width:'80vw',margin:'1rem' }} id='h1index'></div>
                         {width >= 900 && 
                             (
                                 <div className='searchSuper'>
