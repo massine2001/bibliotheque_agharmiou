@@ -42,7 +42,7 @@ export default function Auth() {
       if (error) {
         setError(error.message);
       } else {
-        alert(isLogin ? 'Connexion réussie !' : 'Inscription réussie, vérifie ton email !');
+        isLogin ? console.log('Connexion réussie !') : alert('Inscription réussie, vérifie ton email !');
         setEmail('');
         setPassword('');
         setUser(user);
