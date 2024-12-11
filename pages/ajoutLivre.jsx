@@ -9,7 +9,7 @@ const AjoutLivre = () => {
     const [titre, setTitre] = useState('');
     const [auteur, setAuteur] = useState('');
     const [editeur, setEditeur] = useState('');
-    const [langue, setLangue] = useState('');
+    const [langue, setLangue] = useState('Français');
     const [prix, setPrix] = useState(0);
     const [exemplaire, setExemplaire] = useState(0);
     const [resume, setResume] = useState('');
