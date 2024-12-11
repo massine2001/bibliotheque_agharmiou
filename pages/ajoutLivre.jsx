@@ -217,7 +217,7 @@ const AjoutLivre = () => {
         if (type.startsWith('--Ajouter un auteur--')) {
             const existA = await existAuteur(nom);
             if( existA.length !== 0){
-                setError("L'auteur existe déjà !");
+                alert("L'auteur existe déjà !");
                 return;
             }
             await insertCara('auteur', capitalizeWords(nom));
@@ -229,7 +229,7 @@ const AjoutLivre = () => {
         } else if (type.startsWith('--Ajouter un editeur--')) {
             const existE = await existEditeir(nom);
             if( existE.length !== 0){
-                setError("L'éditeur existe déjà !");
+                alert("L'éditeur existe déjà !");
                 return;
             }
             await insertCara('editeur', capitalizeWords(nom));
@@ -241,7 +241,7 @@ const AjoutLivre = () => {
         } else if (type.startsWith('--Ajouter un traducteur--')) {
             const existT = await existTraducteur(nom);
             if( existT.length !== 0){
-                setError('Le traducteur existe déjà !');
+                alert('Le traducteur existe déjà !');
                 return;
             }
             await insertCara('traducteur', capitalizeWords(nom));
@@ -441,7 +441,6 @@ const AjoutLivre = () => {
                     <div>
                         <label>Langue</label>
                         <select type="text" value={langue} onChange={(e) => setLangue(e.target.value)}>
-                            <option value="">Choisir une langue</option>
                             <option value="français">Français</option>
                             <option value="anglais">Anglais</option>
                             <option value="arabe">Arabe</option>
