@@ -215,11 +215,7 @@ const AjoutLivre = () => {
         }
     
         if (type.startsWith('--Ajouter un auteur--')) {
-            const existA = await existAuteur(nom);
-            if( existA.length !== 0){
-                alert("L'auteur existe déjà !");
-                return;
-            }
+            
             await insertCara('auteur', capitalizeWords(nom));
             setNom('');
             setAuteur('');
@@ -227,11 +223,7 @@ const AjoutLivre = () => {
             setBlur(false);
             fetchData();
         } else if (type.startsWith('--Ajouter un editeur--')) {
-            const existE = await existEditeir(nom);
-            if( existE.length !== 0){
-                alert("L'éditeur existe déjà !");
-                return;
-            }
+           
             await insertCara('editeur', capitalizeWords(nom));
             setNom('');
             setEditeur('');
@@ -239,11 +231,7 @@ const AjoutLivre = () => {
             setBlur(false);
             fetchData();
         } else if (type.startsWith('--Ajouter un traducteur--')) {
-            const existT = await existTraducteur(nom);
-            if( existT.length !== 0){
-                alert('Le traducteur existe déjà !');
-                return;
-            }
+            
             await insertCara('traducteur', capitalizeWords(nom));
             setNom('');
             setTraducteur('');
