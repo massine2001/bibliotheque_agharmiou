@@ -119,13 +119,13 @@ il faut installer npm install node-fetch pour que ça marche
           {
           //<span onClick={migrateImages}>Migrer</span>
           }
-          <Link href='/ajoutLivre' className='nav-link'><span className='nav-item'>Ajouter un ouvrage</span></Link>
-          <Link href='/ajoutIsbn' className='nav-link'><span className='nav-item'>Ajout avec un ISBN</span ></Link>
-          <Link href='/' className='nav-link'><span className='nav-item'>Accueil</span ></Link>
+          <Link href='/ajoutLivre' className='nav-link'><span>Ajouter un ouvrage</span></Link>
+          <Link href='/ajoutIsbn' className='nav-link'><span>Ajout avec un ISBN</span ></Link>
+          <Link href='/' className='nav-link'><span>Accueil</span ></Link>
         </div>
         <div style={{padding:'0.5rem 1rem'}}>
-        <Link href='/collection' className='nav-link'><span className='nav-item'>Collection des Genres</span></Link>
-         <Link href='/consultation' className='nav-link'><span className='nav-item'>Consulter les Ouvrages</span></Link>
+        <Link href='/collection' className='nav-link'><span>Collection des Genres</span></Link>
+         <Link href='/consultation' className='nav-link'><span>Consulter les Ouvrages</span></Link>
         </div>
       </nav>
      )}
