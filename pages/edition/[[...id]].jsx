@@ -380,6 +380,7 @@ const ModifLivre = () => {
                     </div>
                     <div>
                         <div className='divImagePetite'>
+                        <label>Image</label>
                         <input type="text" value={image} onChange={(e) => setImage(e.target.value)} />
                         {image && <img className='monFormImage' src={image} alt="Preview"/>} 
                         </div>
