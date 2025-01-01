@@ -379,8 +379,8 @@ const ModifLivre = () => {
                         <input min={0} required type="number" value={annee_publication === 0 ? '' : annee_publication} placeholder="Saisir l'année de publication du livre" onChange={(e) => setAnneePublication(parseInt(e.target.value))} />
                     </div>
                     <div>
-                        <div className='divImagePetite'>
                         <label>Image</label>
+                        <div className='divImagePetite'>
                         <input type="text" value={image} onChange={(e) => setImage(e.target.value)} />
                         {image && <img className='monFormImage' src={image} alt="Preview"/>} 
                         </div>
