@@ -6,21 +6,22 @@ import Footer from '../components/Footer';
 
 const Consultation = () => {
   const [search, setSearch] = useState('');
-  const {  fetchLivre } = useContext(context);
+  const { fetchLivre } = useContext(context);
   const [livre, setLivre] = useState([]);
   const [filteredLivre, setFilteredLivre] = useState([]);
   const [width, setWidth] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const l = await fetchLivre();
       setLivre(l);
       setFilteredLivre(l);
+      setLoading(false);
     };
     fetchData();
-  }
-  , []);
-
+  }, []);
 
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
@@ -40,7 +41,7 @@ const Consultation = () => {
         const annee = livre_.annee_publication ? livre_.annee_publication.toString().toLowerCase() : "";
         const langue = livre_.langue ? livre_.langue.toLowerCase() : ""; 
         const code = livre_.code ? livre_.code.toLowerCase() : "";
-  
+
         return titre.includes(search.toLowerCase()) ||
                auteur.includes(search.toLowerCase()) ||
                editeur.includes(search.toLowerCase()) ||
@@ -52,7 +53,6 @@ const Consultation = () => {
       setFilteredLivre(livre);
     }
   }, [search, livre]);
-  
 
   const handleChange = (e) => {
     setSearch(e.target.value);
@@ -66,11 +66,9 @@ const Consultation = () => {
       setFilteredLivre([...filteredLivre].sort((a, b) => a.auteur.localeCompare(b.auteur)));
     } else if (tri === 'recent') {
       setFilteredLivre([...filteredLivre].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
-    }   
-    else if (tri === 'ancien') {
+    } else if (tri === 'ancien') {
       setFilteredLivre([...filteredLivre].sort((a, b) => new Date(a.created_at) - new Date(b.created_at)));
-    } 
-     else if (tri === 'annee') {
+    } else if (tri === 'annee') {
       setFilteredLivre([...filteredLivre].sort((a, b) => a.annee_publication - b.annee_publication));
     }
   }
@@ -80,58 +78,91 @@ const Consultation = () => {
       <div className='livre-grid'>
         <div>
           <div className='searchConsul'>
-            <h4 style={{marginLeft:'auto',borderStyle:'dotted',padding:'3px',borderRight:'none',borderLeft:'none'}}>Nombre total de livres : {livre.length} </h4>
-            <input name={"consultation"} className='barre_consultation' onChange={handleChange} type="search" placeholder='Chercher un ouvrage par code, titre, auteur, éditeur, année de publication ou par langue !' value={search} />
+            <h4 style={{marginLeft:'auto',borderStyle:'dotted',padding:'3px',borderRight:'none',borderLeft:'none'}}>
+              Nombre total de livres : {livre.length}
+            </h4>
+            <input
+              name="consultation"
+              className='barre_consultation'
+              onChange={handleChange}
+              type="search"
+              placeholder='Chercher un ouvrage par code, titre, auteur, éditeur, année de publication ou par langue !'
+              value={search}
+            />
           </div>
-          <div >
-            <select className='selectConsul' name="tri" id="tri" onChange={(e) =>{handleTri(e)}} >
+          <div>
+            <select className='selectConsul' name="tri" id="tri" onChange={handleTri}>
               <option value="titre">Trier par ordre alphabétique (Titre)</option>
               <option value="auteur">Trier par ordre alphabétique (Auteur)</option>
               <option value="recent">Trier par l'ajout le plus récent</option>
               <option value="ancien">Trier par l'ajout le plus ancien</option>
               <option value="annee">Trier par année de publication</option>
-              
             </select>
           </div>
         </div>
         <h4 className='mobileTotal'>Nombre total de livres : {livre.length}</h4>
 
-        {filteredLivre.map((livre_) => (
-          <Link key={livre_.id} style={{textDecoration:'none',color:'black'}} href={`/livre/${livre_.id}`}>
+        {loading ? (
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            padding: '50px',
+            textAlign: 'center',
+            width: '100%'
+          }}>
+            <div style={{
+              border: '4px solid #f3f3f3',
+              borderTop: '4px solid #333',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite'
+            }} />
+            <p style={{ marginTop: '20px', fontSize: '16px' }}>Chargement des livres...</p>
 
-          <div className='livreConsul'>
-            <div className='livre_image'>
-              <img src={livre_.image} alt={livre_.titre} className='imageConsultation' />
-            </div>
-            <div className='livre_info'>
-            <h3>{livre_.titre.length > 33 ? livre_.titre.substring(0, 33) + "..." : livre_.titre}</h3>
-            {width < 900 && (
-                <>
-                  {livre_.auteur && <p className='mobile-auteur'>{livre_.auteur}</p>}
-                  {livre_.editeur && <p>Editeur : {livre_.editeur}</p>}
-                  {livre_.langue && <p>Langue : {livre_.langue}</p>}
-                  {livre_.annee_publication && <p>Année de publication : {livre_.annee_publication}</p>}
-                  {livre_.created_at && <p>Ajouté le : {new Date(livre_.created_at).toLocaleDateString()}</p>}
-                </>
-              )}
-             
-              {width >= 900 && (
-                <>
-                  {livre_.auteur && <p className='desktop-auteur'>{livre_.auteur}</p>}
-                  {livre_.editeur && <p>Editeur : {livre_.editeur}</p>}
-                  {livre_.langue && <p>Langue : {livre_.langue}</p>}
-                  {livre_.annee_publication && <p>Année de publication : {livre_.annee_publication}</p>}
-                  {livre_.created_at && <p>Ajouté le : {new Date(livre_.created_at).toLocaleDateString()}</p>}
-                </>
-              )}
-            </div>
-          </div>            
-          </Link>
-
-        ))}
+            <style>
+              {`
+                @keyframes spin {
+                  0% { transform: rotate(0deg); }
+                  100% { transform: rotate(360deg); }
+                }
+              `}
+            </style>
+          </div>
+        ) : (
+          filteredLivre.map((livre_) => (
+            <Link key={livre_.id} style={{ textDecoration: 'none', color: 'black' }} href={`/livre/${livre_.id}`}>
+              <div className='livreConsul'>
+                <div className='livre_image'>
+                  <img src={livre_.image} alt={livre_.titre} className='imageConsultation' />
+                </div>
+                <div className='livre_info'>
+                  <h3>{livre_.titre.length > 33 ? livre_.titre.substring(0, 33) + "..." : livre_.titre}</h3>
+                  {width < 900 ? (
+                    <>
+                      {livre_.auteur && <p className='mobile-auteur'>{livre_.auteur}</p>}
+                      {livre_.editeur && <p>Editeur : {livre_.editeur}</p>}
+                      {livre_.langue && <p>Langue : {livre_.langue}</p>}
+                      {livre_.annee_publication && <p>Année de publication : {livre_.annee_publication}</p>}
+                      {livre_.created_at && <p>Ajouté le : {new Date(livre_.created_at).toLocaleDateString()}</p>}
+                    </>
+                  ) : (
+                    <>
+                      {livre_.auteur && <p className='desktop-auteur'>{livre_.auteur}</p>}
+                      {livre_.editeur && <p>Editeur : {livre_.editeur}</p>}
+                      {livre_.langue && <p>Langue : {livre_.langue}</p>}
+                      {livre_.annee_publication && <p>Année de publication : {livre_.annee_publication}</p>}
+                      {livre_.created_at && <p>Ajouté le : {new Date(livre_.created_at).toLocaleDateString()}</p>}
+                    </>
+                  )}
+                </div>
+              </div>
+            </Link>
+          ))
+        )}
       </div>
       <Footer />
-
     </MainLayout>
   );
 };
