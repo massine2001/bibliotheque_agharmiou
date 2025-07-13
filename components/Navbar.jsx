@@ -124,8 +124,8 @@ il faut installer npm install node-fetch pour que ça marche
           <Link href='/' className='nav-link'><span>Accueil</span ></Link>
         </div>
         <div style={{padding:'0.5rem 1rem'}}>
+        <Link href='/consultation' className='nav-link'><span>Consulter les Ouvrages</span></Link>
         <Link href='/collection' className='nav-link'><span>Collection des Genres</span></Link>
-         <Link href='/consultation' className='nav-link'><span>Consulter les Ouvrages</span></Link>
         </div>
       </nav>
      )}
